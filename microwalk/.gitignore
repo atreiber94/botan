@@ -1,0 +1,5 @@
+*.dwarf
+testcases/
+results/
+/target-aes
+*.map
