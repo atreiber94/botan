@@ -20,12 +20,12 @@ dotnet MapFileGenerator.dll $mainDir/libbotan-3.so $thisDir/libbotan-3.map
 popd
 
 # Build targets
-for target in $(find . -name "target-*.c" -print)
+for target in $(find . -maxdepth 1 -name "target-*.c" -print)
 do
   targetName=$(basename -- ${target%.*})
   
   # TODO Adjust command line to link against your library
-  gcc main.c $targetName.c -g -fno-inline -fno-split-stack -L "$mainDir" -lbotan-3 -I "$mainDir/build/include" -o $targetName
+  gcc -O0 -g main.c $targetName.c -fno-inline -fno-split-stack -L "$mainDir" -lbotan-3 -I "$mainDir/build/include" -o $targetName
   
   pushd $MAP_GENERATOR_PATH
   dotnet MapFileGenerator.dll $thisDir/$targetName $thisDir/$targetName.map

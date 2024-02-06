@@ -4,7 +4,7 @@
 
 #include "botan/ffi.h"
 
-botan_hash_t ctx;
+botan_block_cipher_t ctx;
 
 extern void RunTarget(FILE *input) {
   // TODO Read test case and execute target primitive
@@ -18,12 +18,11 @@ extern void RunTarget(FILE *input) {
   // functionality from the C standard library are _usually_ fine, as this
   // library is skipped during the analysis by default.
 
-  uint8_t in[32];
+  uint8_t in[32] = {0};
   fread(in, 1, 32, input);
 
-  uint8_t out[64];
-  botan_hash_update(ctx, in, 32);
-  botan_hash_final(ctx, out);
+  uint8_t out[32] = {0};
+  botan_block_cipher_encrypt_blocks(ctx, in, out, 2);
 }
 
 extern void InitTarget(FILE *input) {
@@ -38,6 +37,10 @@ extern void InitTarget(FILE *input) {
   // You should really avoid that a part of the library gets initialized late,
   // as this may generate false positives.
 
-  botan_hash_init(&ctx, "Whirlpool", 0);
+  uint8_t key[32] = {0};
+
+  botan_block_cipher_init(&ctx, "AES-256");
+  botan_block_cipher_set_key(ctx, key, 32);
+
   RunTarget(input);
 }

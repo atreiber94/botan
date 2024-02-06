@@ -1,9 +1,11 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "botan/ffi.h"
 
 botan_block_cipher_t ctx;
+uint8_t in[32] = {0};
 
 extern void RunTarget(FILE *input) {
   // TODO Read test case and execute target primitive
@@ -16,14 +18,14 @@ extern void RunTarget(FILE *input) {
   // considerable number of false positives. printf() and others I/O
   // functionality from the C standard library are _usually_ fine, as this
   // library is skipped during the analysis by default.
+  //
+  //
+  uint8_t key[32] = {0};
+  fread(key, 1, 32, input);
+  botan_block_cipher_set_key(ctx, key, 32);
 
-  uint8_t in[32];
-  if (fread(in, 1, 32, input) != 32)
-    return;
-
-  // AES
-  uint8_t out[32];
-  botan_block_cipher_encrypt_blocks(ctx, in, out, 1);
+  uint8_t out[32] = {0};
+  botan_block_cipher_encrypt_blocks(ctx, in, out, 2);
 }
 
 extern void InitTarget(FILE *input) {
@@ -37,12 +39,7 @@ extern void InitTarget(FILE *input) {
 
   // You should really avoid that a part of the library gets initialized late,
   // as this may generate false positives.
-
-  uint8_t key[32];
-  if (fread(key, 1, 32, input) != 32)
-    return;
-
-  // AES
+  //
   botan_block_cipher_init(&ctx, "AES-256");
-  botan_block_cipher_set_key(ctx, key, 32);
+  RunTarget(input);
 }
