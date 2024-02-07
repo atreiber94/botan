@@ -10,7 +10,7 @@ mainDir=$(realpath $thisDir/..)
 pushd $mainDir
 #make -j all
 #make
-dwarfdump -l libbotan-3.so > microwalk/libbotan-3.so.dwarf
+dwarfdump -l libbotan-3.so.2 > microwalk/libbotan-3.so.2.dwarf
 popd
 
 # Generate MAP file for library
