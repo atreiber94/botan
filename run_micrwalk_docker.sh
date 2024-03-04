@@ -1,4 +1,4 @@
 #!/bin/sh
 LIBRARY="$(pwd)"
 
-sudo docker run -it -v $LIBRARY:/mw/library microwalk/microwalk-pin /bin/bash
+docker run -v $LIBRARY:/mw/library ghcr.io/microwalk-project/microwalk:pin sh -c "cd ../library/microwalk && ./build.sh && ./analyze.sh"

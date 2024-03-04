@@ -52,6 +52,7 @@ def known_targets():
         'format',
         'fuzzers',
         'lint',
+        'microwalk',
         'minimized',
         'nist',
         'sanitizer',
@@ -260,6 +261,10 @@ def determine_flags(target, target_os, target_cpu, target_cc, cc_bin, ccache,
     if target == 'emscripten':
         flags += ['--cpu=wasm']
         # need to find a way to run the wasm-compiled tests w/o a browser
+        test_cmd = None
+
+    if target == 'microwalk':
+        flags += ['--with-debug-info', '--without-sqlite3']
         test_cmd = None
 
     if is_cross_target:
