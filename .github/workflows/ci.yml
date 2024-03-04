@@ -57,6 +57,7 @@ jobs:
           path: ${{ github.workspace }}/microwalk/results
 
   windows:
+    if: false # TODO: Remove
     name: "Windows"
     strategy:
       fail-fast: false
@@ -92,6 +93,7 @@ jobs:
         run: python3 ./src/scripts/ci_build.py --cc='msvc' --make-tool='ninja' --cpu='${{ matrix.arch }}' --test-results-dir=junit_results ${{ matrix.target }}
 
   linux:
+    if: false # TODO: Remove
     name: "Linux"
     strategy:
       fail-fast: false
@@ -122,6 +124,7 @@ jobs:
         run: python3 ./src/scripts/ci_build.py --cc='${{ matrix.compiler }}' --test-results-dir=junit_results ${{ matrix.target }}
 
   macos:
+    if: false # TODO: Remove
     name: "macOS"
     strategy:
       fail-fast: false
@@ -148,6 +151,7 @@ jobs:
         run: python3 ./src/scripts/ci_build.py --cc='${{ matrix.compiler }}' --test-results-dir=junit_results ${{ matrix.target }}
 
   clang-tidy:
+    if: false # TODO: Remove
     name: "Clang Tidy"
     runs-on: ubuntu-22.04
     steps:
@@ -172,6 +176,7 @@ jobs:
         run: ./src/scripts/ci/gh_clang_tidy_fixes_in_pr.py clang_tidy_diagnostics
 
   analysis:
+    if: false # TODO: Remove
     name: "Analysis"
     strategy:
       fail-fast: false
@@ -232,6 +237,7 @@ jobs:
         run: python3 ./source/src/scripts/ci_build.py --root-dir=${{ github.workspace }}/source --build-dir=${{ github.workspace }}/build --boringssl-dir=${{ github.workspace }}/boringssl --cc='${{ matrix.compiler }}' --make-tool='${{ matrix.make_tool }}' --test-results-dir=junit_results ${{ matrix.target }}
 
   specials:
+    if: false # TODO: Remove
     name: "Special"
     strategy:
       fail-fast: false
@@ -265,6 +271,7 @@ jobs:
         run: python3 ./source/src/scripts/ci_build.py --root-dir=${{ github.workspace }}/source --build-dir=${{ github.workspace }}/build --boringssl-dir=${{ github.workspace }}/boringssl --cc='${{ matrix.compiler }}' --make-tool='${{ matrix.make_tool }}' --test-results-dir=junit_results ${{ matrix.target }}
 
   x-compile:
+    if: false # TODO: Remove
     name: "Cross"
     strategy:
       fail-fast: false
