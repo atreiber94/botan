@@ -774,8 +774,10 @@ def main(args=None):
                 # Otherwise generate a local HTML report
                 cmds.append(['genhtml', cov_file, '--output-directory', os.path.join(build_dir, 'lcov-out')])
 
-        cmds.append(make_cmd + ['clean'])
-        cmds.append(make_cmd + ['distclean'])
+        if target != 'microwalk':
+            #TODO: How to clean up with microwalk workflow
+            cmds.append(make_cmd + ['clean'])
+            cmds.append(make_cmd + ['distclean'])
 
     for cmd in cmds:
         if options.dry_run:
