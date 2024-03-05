@@ -36,7 +36,7 @@ jobs:
           cache-key: linux-gcc-x86_64-microwalk
 
       - name: Build Botan
-        run: python3 ./source/src/scripts/ci_build.py --root-dir=${{ github.workspace }}/source --build-dir=${{ github.workspace }}/build --cc='gcc'
+        run: python3 ./src/scripts/ci_build.py --cc='gcc' microwalk
 
       - name: Run Microwalk analysis
         id: run_microwalk
