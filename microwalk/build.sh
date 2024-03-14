@@ -25,9 +25,9 @@ do
   targetName=$(basename -- ${target%.*})
   
   # TODO Adjust command line to link against your library
-  ls $mainDir/build/include
+  ls $mainDir/build/include/public
 
-  gcc -O0 -g main.c $targetName.c -fno-inline -fno-split-stack -L "$mainDir" -lbotan-3 -I "$mainDir/build/include" -o $targetName
+  gcc -O0 -g main.c $targetName.c -fno-inline -fno-split-stack -L "$mainDir" -lbotan-3 -I "$mainDir/build/include/public" -o $targetName
   
   pushd $MAP_GENERATOR_PATH
   dotnet MapFileGenerator.dll $thisDir/$targetName $thisDir/$targetName.map
