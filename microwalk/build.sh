@@ -25,8 +25,7 @@ do
   targetName=$(basename -- ${target%.*})
   
   # TODO Adjust command line to link against your library
-  ls $mainDir
-  ls $mainDir/build
+  ls $mainDir/build/include
 
   gcc -O0 -g main.c $targetName.c -fno-inline -fno-split-stack -L "$mainDir" -lbotan-3 -I "$mainDir/build/include" -o $targetName
   
