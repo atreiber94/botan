@@ -14,6 +14,46 @@ permissions:
   contents: read
 
 jobs:
+  microwalk-analyze:
+    name: "Microwalk"
+    runs-on: ubuntu-22.04
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Build Agent
+        uses: ./.github/actions/setup-build-agent
+        with:
+          target: microwalk
+          cache-key: linux-gcc-x86_64-microwalk
+
+      - name: Build Botan
+        run: python3 ./src/scripts/ci_build.py --cc='gcc' microwalk
+
+      - name: Run Microwalk analysis
+        id: run_microwalk
+        uses: microwalk-project/microwalk-pin-action@v1
+        with:
+          script-directory: microwalk
+      
+      - name: Upload analysis result
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ github.workspace }}/microwalk/results/report.sarif
+          checkout_path: ${{ github.workspace }}
+          category: microwalk
+      
+      - name: Archive analysis artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: leakage-analysis-results
+          path: ${{ github.workspace }}/microwalk/results
+
   codeql_cpp:
     if: false # TODO: Remove
     name: C++
