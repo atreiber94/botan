@@ -48,6 +48,11 @@ do
   cp $WORK_DIR/$targetName/persist/results/call-stacks.txt $resultsDir/call-stacks-$targetName.txt
   
   reports="${reports} ${reportFile}"
+
+  # TODO: Generalize
+  botanheaderBuild="home/runner/work/botan/botan/build/include/internal/botan/internal/rotate.h"
+  botanheaderSource="src/lib/utils/rotate.h"
+  sed -i "s|$botanheaderBuild|$botanheaderSource|g" "$reportFile"
   
   echo "Running target ${targetName} successful, generated report ${reportFile}"
 done
